@@ -1,6 +1,7 @@
 package de.rieckpil.thread;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
 public class Pipeline {
@@ -8,7 +9,8 @@ public class Pipeline {
   public static void main(String[] args) throws InterruptedException, ExecutionException {
     Pipeline pip = new Pipeline();
     // pip.pipeline();
-    pip.combiningPipelines();
+    // pip.combiningPipelines();
+    pip.composingPipeline();
   }
 
   // @formatter:off
@@ -27,7 +29,19 @@ public class Pipeline {
       .thenAccept(this::consumerMessage)
       .get();
   }
+  
+  public void composingPipeline() {
+    
+    CompletableFuture.supplyAsync(this::message)
+      .thenCompose(this::compose)
+      .thenAccept(this::consumerMessage);
+    
+  }
   //@formatter:on
+  
+  CompletionStage<String> compose(String input) {
+    return CompletableFuture.supplyAsync(() -> input).thenApply(this::beautify);
+  }
   
   String combine(String first, String second) {
     return first + " --  " + second;
