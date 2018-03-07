@@ -2,15 +2,23 @@ package de.rieckpil.thread;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ThreadExample {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, ExecutionException {
     ThreadExample ex = new ThreadExample();
     // ex.runThread();
-    ex.threadPool();
+    // ex.threadPool();
+    ex.backpressure();
 
   }
 
@@ -29,19 +37,60 @@ public class ThreadExample {
 
   private void display() {
     try {
-      Thread.sleep(4000000);
+      Thread.sleep(2000);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
-  
+
   public void threadPool() throws InterruptedException {
     ExecutorService tp = Executors.newFixedThreadPool(5);
     for (int i = 0; i < 10000; i++) {
       Runnable run = this::display;
       tp.submit(run);
       Thread.sleep(10);
+    }
+  }
+
+  public String message() {
+    return "Hey duke " + System.currentTimeMillis();
+  }
+
+  public void backpressure() {
+    BlockingQueue<Runnable> queue = new LinkedBlockingDeque<>(2);
+    ThreadPoolExecutor tp = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, queue,
+        new ThreadPoolExecutor.CallerRunsPolicy());
+
+    long start = System.currentTimeMillis();
+    tp.submit(this::display);
+    duration(start);
+    tp.submit(this::display);
+    duration(start);
+    tp.submit(this::display);
+    duration(start);
+    tp.submit(this::display);
+    duration(start);
+
+  }
+
+  public void duration(long start) {
+    System.out.println(" -- took: " + (System.currentTimeMillis() - start));
+  }
+
+  public void callable() throws InterruptedException, ExecutionException {
+    Callable<String> messageProvider = this::message;
+    ExecutorService tp = Executors.newFixedThreadPool(5);
+    List<Future<String>> futures = new ArrayList<>();
+
+    for (int i = 0; i < 10; i++) {
+      Future<String> futureResult = tp.submit(messageProvider);
+      futures.add(futureResult);
+    }
+
+    for (Future<String> future : futures) {
+      String string = future.get();
+      System.out.println(string);
     }
   }
 }
