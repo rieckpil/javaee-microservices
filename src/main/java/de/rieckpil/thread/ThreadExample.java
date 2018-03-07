@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -59,9 +60,10 @@ public class ThreadExample {
 
   public void backpressure() {
     BlockingQueue<Runnable> queue = new LinkedBlockingDeque<>(2);
-    ThreadPoolExecutor tp = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, queue,
-        new ThreadPoolExecutor.CallerRunsPolicy());
 
+    ThreadPoolExecutor tp = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, queue, this::onOverload);
+
+    // new ThreadPoolExecutor.CallerRunsPolicy() || .AbortPolicy() -> throws an exception
     long start = System.currentTimeMillis();
     tp.submit(this::display);
     duration(start);
@@ -76,6 +78,10 @@ public class ThreadExample {
 
   public void duration(long start) {
     System.out.println(" -- took: " + (System.currentTimeMillis() - start));
+  }
+
+  public void onOverload(Runnable r, ThreadPoolExecutor executor) {
+    System.out.println("-- runnable " + r + " executor " + executor.getActiveCount());
   }
 
   public void callable() throws InterruptedException, ExecutionException {
