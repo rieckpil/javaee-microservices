@@ -1,4 +1,4 @@
-package de.rieckpil.thread;
+package de.rieckpil.threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +60,8 @@ public class ThreadExample {
   public void backpressure() {
     BlockingQueue<Runnable> queue = new LinkedBlockingDeque<>(2);
 
-    ThreadPoolExecutor tp = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, queue, this::onOverload);
+    ThreadPoolExecutor tp =
+        new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, queue, this::onOverload);
 
     // new ThreadPoolExecutor.CallerRunsPolicy() || .AbortPolicy() -> throws an exception
     long start = System.currentTimeMillis();

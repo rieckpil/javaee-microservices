@@ -1,4 +1,4 @@
-package de.rieckpil.thread;
+package de.rieckpil.threads;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

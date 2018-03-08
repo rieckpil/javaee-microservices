@@ -1,4 +1,4 @@
-package de.rieckpil.thread;
+package de.rieckpil.threads;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -38,11 +38,11 @@ public class Pipeline {
     
   }
   //@formatter:on
-  
+
   CompletionStage<String> compose(String input) {
     return CompletableFuture.supplyAsync(() -> input).thenApply(this::beautify);
   }
-  
+
   String combine(String first, String second) {
     return first + " --  " + second;
   }
