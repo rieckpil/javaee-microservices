@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class ClientTest {
   @Before
   public void init() {
     this.client = ClientBuilder.newClient();
-    this.tut = this.client.target("http://localhost:8080/javaee-7-example/resources/messages");
+    this.tut = this.client.target("http://localhost:8080/messages/resources/messages");
   }
 
   @Test
@@ -28,5 +29,6 @@ public class ClientTest {
   
   void consume(String message) {
     System.out.println(" received " + message);
+    this.tut.request().post(Entity.text(message));
   }
 }
