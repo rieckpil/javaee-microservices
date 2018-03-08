@@ -1,5 +1,8 @@
 package de.rieckpil.messages;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -18,8 +21,12 @@ public class ClientTest {
   }
 
   @Test
-  public void fetchMessage() {
-    String string = tut.request().get(String.class);
-    System.out.println(" -- " + string);
+  public void fetchMessage() throws InterruptedException, ExecutionException {
+    Supplier<String> string = () -> tut.request().get(String.class);
+    CompletableFuture.supplyAsync(string).thenAccept(this::consume).get();
+  }
+  
+  void consume(String message) {
+    System.out.println(" received " + message);
   }
 }
