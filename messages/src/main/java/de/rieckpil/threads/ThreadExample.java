@@ -16,8 +16,8 @@ public class ThreadExample {
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
     ThreadExample ex = new ThreadExample();
-    // ex.runThread();
-    // ex.threadPool();
+    ex.runThread();
+    ex.threadPool();
     ex.backpressure();
 
   }
