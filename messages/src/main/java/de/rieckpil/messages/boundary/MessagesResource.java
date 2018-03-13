@@ -24,7 +24,8 @@ public class MessagesResource {
 
   @GET
   public String getMessage() {
-    importantEvent.fire("IMPROTANT: DUKE was being invoked!");
+    importantEvent.fire("IMPROTANT SYNC: DUKE was being invoked!");
+    importantEvent.fireAsync("IMPROTANT ASNYC: DUKE was being invoked!");
     return "hello duke: --" + System.currentTimeMillis();
   }
 
