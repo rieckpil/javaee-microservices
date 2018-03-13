@@ -17,7 +17,12 @@ public class AsyncLoggerObserver {
     
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
-    public void onImportantEventInvoked(@ObservesAsync @Priority(1) @Important String event) {
+    public void onImportantEventInvoked(@ObservesAsync @Priority(5) @Important String event) {
         log.info(String.format("Logging async: %s", event));
+    }
+    
+     public void onImportantEventInvokedWithException(@ObservesAsync @Priority(1) @Important String event) {
+        log.info(String.format("Logging async with error: %s", event));
+        throw new RuntimeException("Error with CDI events");
     }
 }
