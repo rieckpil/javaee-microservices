@@ -6,10 +6,16 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Stateless
 public class UserStore {
 
+    @PersistenceContext
+    EntityManager em;
+    
     private List<User> userList;
 
     @PostConstruct
@@ -31,10 +37,13 @@ public class UserStore {
     public List<User> getAllUser() {
         return userList;
     }
+    
+    public Optional<User> getUserById(long id) {
+        return Optional.ofNullable(em.find(User.class, id));
+    }
 
     public User createUser(User user) {
-        user.setId(userList.size() + 1);
-        userList.add(user);
+        em.persist(user);
         return user;
     }
 }
