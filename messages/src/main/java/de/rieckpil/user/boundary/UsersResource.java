@@ -2,7 +2,6 @@ package de.rieckpil.user.boundary;
 
 import de.rieckpil.user.entity.User;
 
-import javax.activation.MimeType;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.JsonArray;
@@ -17,6 +16,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 
 @Path("users")
 @Stateless
@@ -41,5 +45,12 @@ public class UsersResource {
                 path("/" + userId).
                 build();
         return Response.created(uri).build();
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveNewUser(@PathParam("id") int id, @Valid @NotNull User user) {
+        return Response.ok().build();
     }
 }

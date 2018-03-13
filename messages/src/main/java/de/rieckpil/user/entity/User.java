@@ -2,11 +2,16 @@ package de.rieckpil.user.entity;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 public class User {
 
     private long id;
+
+    @NotNull
     private String lastName;
+
+    @NotNull
     private String firstName;
 
     public User(String lastName, String firstName) {
@@ -17,6 +22,10 @@ public class User {
     public User(JsonObject json) {
         this.lastName = json.getString("lastName", "not defined");
         this.firstName = json.getString("firstName", "not defined");
+    }
+
+    public User() {
+
     }
 
     public JsonObject toJSON() {
