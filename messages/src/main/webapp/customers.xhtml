@@ -4,6 +4,7 @@
         <title>Hello World JSF!</title>
     </h:head>
     <h:body>
+        <h3>Table with ui:repeat</h3>
         <table>
             <th>
                 <tr>
@@ -20,5 +21,18 @@
                 </tr>
             </ui:repeat>
         </table>
+        <br/>
+        <h3>Table with h:dataTable</h3>
+        <h:dataTable value="#{customerBean.customers}" var="customer">
+            <h:column>
+                #{customer.customerNumber}
+            </h:column>
+            <h:column>
+                #{customer.firstName}
+            </h:column>
+            <h:column>
+                #{customer.lastName}
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
