@@ -19,13 +19,13 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
-    private String customerNumber;
+    private Long customerNumber;
     private String firstName;
     private String lastName;
 
-    public Customer(String customerNumber, String firstName, String lastName) {
+    public Customer(Long customerNumber, String firstName, String lastName) {
         this.customerNumber = customerNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,11 +35,19 @@ public class Customer {
 
     }
 
-    public String getCustomerNumber() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCustomerNumber() {
         return customerNumber;
     }
 
-    public void setCustomerNumber(String customerNumber) {
+    public void setCustomerNumber(Long customerNumber) {
         this.customerNumber = customerNumber;
     }
 
@@ -59,12 +67,4 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-    
 }

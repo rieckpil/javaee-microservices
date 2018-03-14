@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -33,10 +34,14 @@ public class CustomerBean {
     private Long customerNumber;
 
     @NotNull
+    @NotEmpty
     private String firstName;
 
     @NotNull
+    @NotEmpty
     private String lastName;
+
+    private List<Customer> customers = new ArrayList<>();
 
     @PostConstruct
     public void init() {
@@ -44,6 +49,7 @@ public class CustomerBean {
     }
 
     public void createCustomer() {
+        System.out.println(customerNumber + " " + firstName + " " + lastName);
         customerRepository.persist(new Customer(customerNumber, firstName, lastName));
     }
 
@@ -70,5 +76,13 @@ public class CustomerBean {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
 }

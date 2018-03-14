@@ -34,5 +34,28 @@
                 #{customer.lastName}
             </h:column>
         </h:dataTable>
+
+        <br/>
+
+        <h:form id="createCustomer">
+            <div>
+                Customer Number:
+                <h:inputText id="no" value="#{customerBean.customerNumber}"/>
+                <h:message for="no"/>
+            </div>
+            <div>
+                Firstname:
+                <h:inputText id="firstName" value="#{customerBean.firstName}"/>
+                <h:message for="firstName" />
+            </div>
+            <div>
+                Lastname:
+                <h:inputText id="lastName" value="#{customerBean.lastName}"/>
+                <h:message for="lastName"/>
+            </div>
+            <div>
+                <h:commandButton action="#{customerBean.createCustomer}" value="Erstellen"/>
+            </div>
+        </h:form>
     </h:body>
 </html>
