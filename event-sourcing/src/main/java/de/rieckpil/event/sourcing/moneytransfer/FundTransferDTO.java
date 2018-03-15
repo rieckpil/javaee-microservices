@@ -56,7 +56,5 @@ public class FundTransferDTO {
     public void setAmt(double amt) {
         this.amt = amt;
     }
-            
-    
     
 }
