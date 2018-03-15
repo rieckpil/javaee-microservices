@@ -34,6 +34,12 @@
                 #{customer.lastName}
             </h:column>
         </h:dataTable>
+        
+         <h:form id="loadCustomers">
+            <div>
+                <h:commandButton action="#{customerBean.loadCustomers}" value="Kundendatei laden"/>
+            </div>
+        </h:form>
 
         <br/>
 

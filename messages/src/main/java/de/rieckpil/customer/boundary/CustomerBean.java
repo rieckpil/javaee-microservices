@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Max;
@@ -41,16 +42,25 @@ public class CustomerBean {
     @NotEmpty
     private String lastName;
 
-    private List<Customer> customers = new ArrayList<>();
+    @Inject
+    private Event<Customer> customerCreatedEvent;
+
+    private List<Customer> customers;
 
     @PostConstruct
     public void init() {
+        customers = new ArrayList<>();
+    }
 
+    public void loadCustomers() {
+        this.customers = customerRepository.findAll();
     }
 
     public void createCustomer() {
         System.out.println(customerNumber + " " + firstName + " " + lastName);
-        customerRepository.persist(new Customer(customerNumber, firstName, lastName));
+        Customer customer = new Customer(customerNumber, firstName, lastName);
+        customerRepository.persist(customer);
+        customerCreatedEvent.fire(customer);
     }
 
     public Long getCustomerNumber() {

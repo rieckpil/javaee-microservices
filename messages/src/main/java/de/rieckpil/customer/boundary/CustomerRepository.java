@@ -5,12 +5,14 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author rieckpil
  */
 @ApplicationScoped
+@Transactional
 public class CustomerRepository {
 
     @PersistenceContext
@@ -25,6 +27,7 @@ public class CustomerRepository {
     }
 
     public Customer persist(Customer customer) {
+        em.persist(customer);
         return customer;
     }
 
