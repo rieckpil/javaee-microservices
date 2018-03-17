@@ -1,5 +1,6 @@
 package de.rieckpil.messages.boundary;
 
+import de.rieckpil.customer.control.Config;
 import de.rieckpil.messages.control.Critical;
 import de.rieckpil.messages.control.Important;
 import java.util.concurrent.CompletionStage;
@@ -23,13 +24,17 @@ public class MessagesResource {
     @Critical
     Event<String> criticalEvent;
 
+    @Inject
+    @Config("message.text")
+    private String messageText;
+
     @GET
     public String getMessage() {
         importantEvent.fire("IMPROTANT SYNC: DUKE was being invoked!");
         CompletionStage<String> fireAsync = importantEvent.fireAsync("IMPROTANT ASNYC: DUKE was being invoked!");
         fireAsync.whenComplete(this::handleWhenComplete);
         fireAsync.handle(this::handleException);
-        return "hello duke: --" + System.currentTimeMillis();
+        return "hello duke: --" + messageText + " " + System.currentTimeMillis();
     }
 
     @GET
