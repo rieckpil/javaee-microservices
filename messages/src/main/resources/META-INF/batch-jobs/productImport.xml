@@ -1,4 +1,4 @@
-<job id="productImport" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0>
+<job id="productImport" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
     <step id="import">
         <chunk>
             <reader ref="flatFileReader"/>
